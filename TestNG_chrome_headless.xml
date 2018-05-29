@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Default Suite">
+    <!-- Default Suite -->
+    <test name="CourseProject01">
+        <parameter name="Browser" value="headless"></parameter>
+        <classes>
+            <class name="YandexTestPO">
+                <methods><include name="fromDropDownValidation"></include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <!-- CourseProject01 -->
+</suite>
