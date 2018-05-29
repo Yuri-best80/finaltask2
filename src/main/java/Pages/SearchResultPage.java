@@ -127,11 +127,11 @@ public class SearchResultPage {
         signLink.click();
     }
     //Create email account
-    public void createMail() { emailCreate.sendKeys("start7@mail.ru");} // change mail for enter account
+    public void createMail() { emailCreate.sendKeys("start8@mail.ru");} // change mail for enter account
     //Input email account
-    public void inputMail() { fieldMail.sendKeys("start7@mail.ru"); } // change mail for enter account
+    public void inputMail() { fieldMail.sendKeys("start8@mail.ru"); } // change mail for enter account
     //Enter email
-    public void inputMailSignIn() { signInEmail.sendKeys("start7@mail.ru");} // change mail for enter account
+    public void inputMailSignIn() { signInEmail.sendKeys("start8@mail.ru");} // change mail for enter account
     //Enter password
     public void inputPasswordSignIn() {
         signInPassword.sendKeys("12345678");
