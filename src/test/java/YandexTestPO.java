@@ -67,7 +67,9 @@ public class YandexTestPO extends TestBase {
 
         Assert.assertTrue(currentURL.contains("my-account"), "My account page should be opened");
 
+
     }
+
 
     @Test
     public void e4verifyTheAbilityToSearchItems() {
@@ -116,8 +118,8 @@ public class YandexTestPO extends TestBase {
         WebDriverWait wait = new WebDriverWait(driver, 1);
         wait.until(ExpectedConditions.elementToBeClickable(searchResultPage.proceedToCheckout)).click();
         searchResultPage.proceedToCheckoutClick();
-        searchResultPage.inputMailSignIn();
-        searchResultPage.inputPasswordSignIn();
+        searchResultPage.inputMail();
+        searchResultPage.inputPasswordAccount();
         searchResultPage.signInButtonClick();
         searchResultPage.processAddressClick();
         searchResultPage.checkerClick();
@@ -127,5 +129,10 @@ public class YandexTestPO extends TestBase {
         searchResultPage.orderHistoryClick();
 
         Assert.assertTrue(searchResultPage.isBackToOrdersDisplayed().contains("Blouse - Color : Black, Size : S"));
+        searchResultPage.backToAccountClick();
+        searchResultPage.informationButtonClick();
+        searchResultPage.updateAccountInformation();
+        Assert.assertTrue(searchResultPage.updateMessage().contains("Your personal information has been successfully updated."));
     }
+
 }

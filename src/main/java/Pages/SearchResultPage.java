@@ -4,6 +4,9 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
+import java.io.File;
+import java.io.IOException;
+
 public class SearchResultPage {
 
     @FindBy(linkText = "Contact us")
@@ -16,8 +19,6 @@ public class SearchResultPage {
     public WebElement subLinkTshirts;
     @FindBy(id = "id_contact")
     private WebElement dropDownListSubjectHeading;
-    @FindBy(id = "email")
-    private WebElement fieldMail;
     @FindBy(id = "email_create")
     private WebElement emailCreate;
     @FindBy(xpath = "//*[@id='SubmitCreate']")
@@ -34,6 +35,8 @@ public class SearchResultPage {
     private WebElement successfulSubmission;
     @FindBy(xpath = "//div[@class='alert alert-danger']/ol/li")
     private WebElement errorMessage;
+    @FindBy(xpath = "//*[@id=\"center_column\"]/div/p")
+    private WebElement updateMessage;
 //Sign in/////////////////////////////////////////////////////////////////////
     @FindBy(id = "email")
     private WebElement signInEmail;
@@ -41,6 +44,11 @@ public class SearchResultPage {
     private WebElement signInPassword;
     @FindBy(id = "SubmitLogin")
     private WebElement signInButton;
+    @FindBy(xpath = "//*[@id=\"SubmitLogin\"]/span/text()")
+    private WebElement signInButton2;
+    @FindBy(xpath = "//*[@id=\"center_column\"]/ul/li[1]/a")
+    private WebElement  backToAccount;
+    ;
 //Create account/////////////////////////////////////////////////////////////
     @FindBy(id = "id_gender1")
     private WebElement accountGender;
@@ -48,6 +56,10 @@ public class SearchResultPage {
     private WebElement accountFirstName;
     @FindBy(id = "customer_lastname")
     private WebElement accountLastName;
+    @FindBy(id = "old_passwd")
+    private WebElement oldPassword;
+    @FindBy(id = "confirmation")
+    private WebElement confirmationPassword;
     @FindBy(id = "passwd")
     private WebElement accountPassword;
     @FindBy(id = "address1")
@@ -113,6 +125,10 @@ public class SearchResultPage {
     public WebElement productNameLink;
     @FindBy(xpath = "//*[@id='add_to_cart']/button/span")
     public WebElement addToCardButton;
+    @FindBy(xpath = "//a[@title='Information']")
+    public WebElement myInformationButton;
+    @FindBy(xpath = "//button[@name='submitIdentity']")
+    public WebElement saveButtonClick;
 
 
     private WebDriver driver;
@@ -127,17 +143,11 @@ public class SearchResultPage {
         signLink.click();
     }
     //Create email account
-    public void createMail() { emailCreate.sendKeys("start8@mail.ru");} // change mail for enter account
+    public void createMail() { emailCreate.sendKeys("s20@mail.ru");} // change mail for enter account
     //Input email account
-    public void inputMail() { fieldMail.sendKeys("start8@mail.ru"); } // change mail for enter account
-    //Enter email
-    public void inputMailSignIn() { signInEmail.sendKeys("start8@mail.ru");} // change mail for enter account
-    //Enter password
-    public void inputPasswordSignIn() {
-        signInPassword.sendKeys("12345678");
-    }
-    //Create password
-    public void inputPasswordAccount() {
+    public void inputMail() { signInEmail.sendKeys("s20@mail.ru"); }
+
+   public void inputPasswordAccount() {
         accountPassword.sendKeys("12345678");
     }
 
@@ -150,8 +160,18 @@ public class SearchResultPage {
             dropdown.selectByIndex(2);
     }
     public void attachFiles() {
-            attachFile.sendKeys("C:\\file.txt");
+        File file = new File("test.txt");
+        if(!file.exists()) {
+         try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+            attachFile.getClass().getResource("test.txt");
     }
+
+
     public void inputMessage() {
                 inputMessage.sendKeys("New message");
         }
@@ -164,6 +184,8 @@ public class SearchResultPage {
         sendButton.click();
         return errorMessage.getText();
     }
+
+
 
 
     public void createAccount() {
@@ -245,8 +267,39 @@ public class SearchResultPage {
         accountButton.click();
 
     }
+    public void informationButtonClick() {
+        myInformationButton.click();
+
+    }
+
+    public void updateAccountInformation() {
+        signInEmail.sendKeys(Keys.chord(Keys.CONTROL, "a"), "s100@mail.ru");
+
+        oldPassword.sendKeys("12345678");
+
+        accountPassword.sendKeys("newpassw");
+
+        confirmationPassword.sendKeys("newpassw");
+    }
+
+public String updateMessage(){
+    saveButtonClick.click();
+        return updateMessage.getText();
+
+    }
+
+
     public void signInButtonClick() {
         signInButton.click();
+
+    }
+
+    public void signInButtonClick2() {
+        signInButton2.click();
+
+    }
+    public void backToAccountClick() {
+        backToAccount.click();
 
     }
    public void proceedToCheckoutClick() {
@@ -264,5 +317,6 @@ public class SearchResultPage {
         orderReference.click();
         return isOrderHistoryDisplayed.getText();
     }
+
 
 }
