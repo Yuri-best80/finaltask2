@@ -42,35 +42,18 @@ public class YandexTestPO extends TestBase {
         searchResultPage.inputOrderReference();
         searchResultPage.attachFiles();
 
+
         Assert.assertTrue(searchResultPage.isErrorMessageDisplayed().contains("The message cannot be blank."));
     }
 
     @Test
     public void e3verifyTheAbilityToRegister() {
-
-        searchResultPage.clickLinkSign();
-        searchResultPage.createMail();
-        searchResultPage.createAccount();
-        searchResultPage.radioButtonClick();
-        searchResultPage.inputFirstName();
-        searchResultPage.inputLastName();
-        searchResultPage.inputPasswordAccount();
-        searchResultPage.inputAddress();
-        searchResultPage.inputCity();
-        searchResultPage.inputState();
-        searchResultPage.inputPostalCode();
-        searchResultPage.inputCountry();
-        searchResultPage.inputMobile();
-        searchResultPage.inputAlias();
-        searchResultPage.accountButtonClick();
+        searchResultPage.generateEmail();
+        searchResultPage.createAccountInformation();
         String currentURL = driver.getCurrentUrl();
-
         Assert.assertTrue(currentURL.contains("my-account"), "My account page should be opened");
 
-
     }
-
-
     @Test
     public void e4verifyTheAbilityToSearchItems() {
 
@@ -90,7 +73,7 @@ public class YandexTestPO extends TestBase {
         Actions action = new Actions(driver);
         WebElement mainMenu = searchResultPage.searchText;
         action.moveToElement(mainMenu).moveToElement(searchResultPage.productSearch).click().build().perform();
-        WebDriverWait wait = new WebDriverWait(driver, 1);
+        WebDriverWait wait = new WebDriverWait(driver, 2);
         wait.until(ExpectedConditions.elementToBeClickable(searchResultPage.proceedToCheckout)).click();
 
         Assert.assertTrue(searchResultPage.isMyCardOrderDisplayed.getText().contains("Blouse"));
@@ -129,10 +112,7 @@ public class YandexTestPO extends TestBase {
         searchResultPage.orderHistoryClick();
 
         Assert.assertTrue(searchResultPage.isBackToOrdersDisplayed().contains("Blouse - Color : Black, Size : S"));
-        searchResultPage.backToAccountClick();
-        searchResultPage.informationButtonClick();
-        searchResultPage.updateAccountInformation();
-        Assert.assertTrue(searchResultPage.updateMessage().contains("Your personal information has been successfully updated."));
+
     }
 
 }

@@ -4,11 +4,12 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.Random;
 
 public class SearchResultPage {
 
+  
     @FindBy(linkText = "Contact us")
     private WebElement contactLink;
     @FindBy(linkText = "Sign in")
@@ -35,6 +36,8 @@ public class SearchResultPage {
     private WebElement successfulSubmission;
     @FindBy(xpath = "//div[@class='alert alert-danger']/ol/li")
     private WebElement errorMessage;
+    @FindBy(xpath = "//div[@class='alert alert-danger']/ol/li")
+    private WebElement errorMessageCreateAccount;
     @FindBy(xpath = "//*[@id=\"center_column\"]/div/p")
     private WebElement updateMessage;
 //Sign in/////////////////////////////////////////////////////////////////////
@@ -44,7 +47,7 @@ public class SearchResultPage {
     private WebElement signInPassword;
     @FindBy(id = "SubmitLogin")
     private WebElement signInButton;
-    @FindBy(xpath = "//*[@id=\"SubmitLogin\"]/span/text()")
+    @FindBy(xpath = "//button[@name='SubmitLogin']")
     private WebElement signInButton2;
     @FindBy(xpath = "//*[@id=\"center_column\"]/ul/li[1]/a")
     private WebElement  backToAccount;
@@ -131,7 +134,9 @@ public class SearchResultPage {
     public WebElement saveButtonClick;
 
 
+
     private WebDriver driver;
+
 
 
     public SearchResultPage(WebDriver driver) {
@@ -139,19 +144,39 @@ public class SearchResultPage {
     }
     public void clickLinkContact(){ contactLink.click(); }
 
-    public void clickLinkSign() {
-        signLink.click();
-    }
-    //Create email account
-    public void createMail() { emailCreate.sendKeys("s20@mail.ru");} // change mail for enter account
-    //Input email account
-    public void inputMail() { signInEmail.sendKeys("s20@mail.ru"); }
+    private static final String dCase = "abcdefghijklmnopqrstuvwxyz";
+    private static final String uCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String intChar = "0123456789";
+    private static Random r = new Random();
+    private static String pass = "";
+    private static String pass2 = "25@mail.ru";
 
-   public void inputPasswordAccount() {
+    public void generateEmail() {
+
+        while (pass.length () != 4){
+            int rPick = r.nextInt(4);
+            if (rPick == 0){
+                int spot = r.nextInt(25);
+                pass += dCase.charAt(spot);
+            } else if (rPick == 1) {
+                int spot = r.nextInt (25);
+                pass += uCase.charAt(spot);
+            }  else if (rPick == 3){
+                int spot = r.nextInt (9);
+                pass += intChar.charAt (spot);
+            }
+        }
+
+    }
+
+
+
+
+    public void inputPasswordAccount() {
         accountPassword.sendKeys("12345678");
     }
 
-    public void inputOrderReference() {
+   public void inputOrderReference() {
                fieldOrder.sendKeys("Model  demo_7");
         }
 
@@ -164,12 +189,14 @@ public class SearchResultPage {
         if(!file.exists()) {
          try {
                 file.createNewFile();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
             attachFile.getClass().getResource("test.txt");
     }
+
 
 
     public void inputMessage() {
@@ -185,20 +212,12 @@ public class SearchResultPage {
         return errorMessage.getText();
     }
 
-
-
-
-    public void createAccount() {
-        crateAccountButton.click();
-    }
-
     public void inputFieldSearch() {
         fieldSearch.sendKeys("Blouse");
     }
     public void searchButtonClick() {
         searchButton.click();
     }
-
 
     public void  processAddressClick() {
         processAddress.click();
@@ -228,80 +247,29 @@ public class SearchResultPage {
         orderHistory.click();
     }
 
+    public void signInButtonClick() { signInButton.click(); }
+    public void inputMail() { signInEmail.sendKeys(pass+pass2); }
+
     //method Create Account
-    public void radioButtonClick() {
-        accountGender.click();
-    }
-    public void inputFirstName() {
+    public void createAccountInformation() {
+        signLink.click();
+        emailCreate.sendKeys(pass+pass2);
+        crateAccountButton.click();
         accountFirstName.sendKeys("Ivan");
-    }
-    public void inputLastName() {
         accountLastName.sendKeys("Ivanov");
-    }
-
-
-    public void inputAddress() {
+        accountPassword.sendKeys("12345678");
         accountAddress.sendKeys("Street");
-    }
-    public void inputCity() {
         accountCity.sendKeys("City,23");
-    }
-    public void inputState() {
-
         Select dropdown = new Select(accountState);
         dropdown.selectByIndex(1);
-           }
-    public void inputPostalCode() {
         accountZip.sendKeys("36101");
-    }
-    public void inputCountry() {
         accountCountry.sendKeys("U.S.A.");
-    }
-    public void inputMobile() {
         accountMobile.sendKeys("+1(000)0000000");
-    }
-    public void inputAlias() {
         accountAlias.sendKeys("Alias@mail.ru");
-    }
-    public void accountButtonClick() {
         accountButton.click();
-
-    }
-    public void informationButtonClick() {
-        myInformationButton.click();
-
-    }
-
-    public void updateAccountInformation() {
-        signInEmail.sendKeys(Keys.chord(Keys.CONTROL, "a"), "s100@mail.ru");
-
-        oldPassword.sendKeys("12345678");
-
-        accountPassword.sendKeys("newpassw");
-
-        confirmationPassword.sendKeys("newpassw");
-    }
-
-public String updateMessage(){
-    saveButtonClick.click();
-        return updateMessage.getText();
-
-    }
+        }
 
 
-    public void signInButtonClick() {
-        signInButton.click();
-
-    }
-
-    public void signInButtonClick2() {
-        signInButton2.click();
-
-    }
-    public void backToAccountClick() {
-        backToAccount.click();
-
-    }
    public void proceedToCheckoutClick() {
         proceedToCheckoutButton.click();
     }
@@ -317,6 +285,7 @@ public String updateMessage(){
         orderReference.click();
         return isOrderHistoryDisplayed.getText();
     }
+
 
 
 }
